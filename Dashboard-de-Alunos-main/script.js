@@ -2,6 +2,8 @@
 // Cada aluno possui: id, nome, turma, faltas e notaFinal.
 // Regra sugerida: notaFinal >= 7 significa aprovado.
 
+const nota_corte = 7;
+
 const alunos = [
   { id: 1, nome: "Ana Clara", turma: "ADS A", faltas: 2, notaFinal: 8.7 },
   { id: 2, nome: "Bruno Henrique", turma: "ADS A", faltas: 5, notaFinal: 6.4 },
@@ -208,11 +210,10 @@ function criarCardALuno(aluno) {
           </div>
 
           <div class="card-status">
-            ${
-              aluno.notaFinal >= 7
-                ? `<span class="status aprovado"> Aprovado </span>`
-                : `<span class="status reprovado"> Reprovado </span>`
-            }
+            ${aluno.notaFinal >= 7
+      ? `<span class="status aprovado"> Aprovado </span>`
+      : `<span class="status reprovado"> Reprovado </span>`
+    }
           </div>`;
 
   return cardAluno;
@@ -226,31 +227,57 @@ function exibirAlunos(alunos) {
   });
 }
 
-function filtrarAlunos () {
-  const alunosFiltrados = alunos.filter(aluno.notaFinal > 7)
+function filtrarTurma(lista, turma) {
 
-  console.log(alunosFiltrados)
+  if (turma != "todos") {
+    const alunosPorTurma = lista.filter((aluno) => {
+      return aluno.turma == turma
+    })
+
+    return alunosPorTurma
+
+  } else {
+    return lista
+  }
+
+
+}
+
+function filtrarNota(lista, tipo) {
+
+  if (tipo.toLowerCase() != "todos") {
+    const alunosPorNota = lista.filter((aluno) => {
+      return tipo.toLowerCase() == "aprovados" ?
+        aluno.notaFinal >= nota_corte :
+        aluno.notaFinal < nota_corte
+    })
+
+    return alunosPorNota
+  } else {
+    return lista
+  }
+
+
 }
 
 function ativarBtn(button) {
   document.querySelectorAll("button").forEach((btn) => {
     btn.classList.remove("ativo");
-
-    if (btn.id == button.id) {
-      button.classList.add("ativo");
-    }
   });
+
+  button.classList.add("ativo");
 }
 
-
-
-btnTodos.addEventListener("click", () => {
-  ativarBtn(btnTodos);
-  exibirAlunos(alunos);
+document.querySelectorAll("button").forEach((btn) => {
+  btn.addEventListener("click", function () {
+    ativarBtn(this)
+    exibirAlunos(filtrarNota(filtrarTurma(alunos, filtroTurma.value), this.textContent))
+  })
 });
 
-btnAprovados.addEventListener("click", () => {
-  filtrarAlunos()
+filtroTurma.addEventListener("change", function () {
+  ativarBtn(btnTodos)
+  exibirAlunos(filtrarTurma(alunos, this.value))
+})
 
 
-});
