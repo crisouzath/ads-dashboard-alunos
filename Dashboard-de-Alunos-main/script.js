@@ -183,6 +183,20 @@ const btnReprovados = document.querySelector("#btnReprovados");
 //   // código aqui
 // }
 
+
+/* mostra quantidade de alunos total,aprovado e reprovado */
+qtdTotal.innerHTML = alunos.length
+
+qtdAprovados.innerHTML = alunos.filter(aluno => 
+  aluno.notaFinal >= nota_corte
+).length;
+
+qtdReprovados.innerHTML = alunos.filter(aluno => 
+  aluno.notaFinal < nota_corte
+).length;
+
+
+/* cria o card aluno */
 function criarCardALuno(aluno) {
   const cardAluno = document.createElement("div");
   cardAluno.classList.add("card-aluno");
@@ -219,6 +233,7 @@ function criarCardALuno(aluno) {
   return cardAluno;
 }
 
+/* função de exibir os alunos na tela */
 function exibirAlunos(alunos) {
   listaAlunos.innerHTML = "";
 
@@ -227,6 +242,8 @@ function exibirAlunos(alunos) {
   });
 }
 
+
+/* filtrar aluno por turma */
 function filtrarTurma(lista, turma) {
 
   if (turma != "todos") {
@@ -243,6 +260,8 @@ function filtrarTurma(lista, turma) {
 
 }
 
+
+/* filtrar aluno por nota */
 function filtrarNota(lista, tipo) {
 
   if (tipo.toLowerCase() != "todos") {
@@ -260,6 +279,7 @@ function filtrarNota(lista, tipo) {
 
 }
 
+/* atualizar o botão selecionado */
 function ativarBtn(button) {
   document.querySelectorAll("button").forEach((btn) => {
     btn.classList.remove("ativo");
@@ -268,16 +288,33 @@ function ativarBtn(button) {
   button.classList.add("ativo");
 }
 
+/* função para ativar os filtros */
+function ativarFiltro(){
+  const btnAtivo = document.querySelector(".ativo")
+  const turma = filtroTurma.value
+
+  const alunosPorTurma = filtrarTurma(alunos, turma)
+
+  const alunosPorNota = filtrarNota(alunosPorTurma, btnAtivo.textContent)
+
+  exibirAlunos(alunosPorNota)
+}
+
+/* adiciona funções nos botões */
 document.querySelectorAll("button").forEach((btn) => {
   btn.addEventListener("click", function () {
     ativarBtn(this)
-    exibirAlunos(filtrarNota(filtrarTurma(alunos, filtroTurma.value), this.textContent))
+    ativarFiltro()
   })
 });
 
+/* adiciona função no select */
 filtroTurma.addEventListener("change", function () {
   ativarBtn(btnTodos)
-  exibirAlunos(filtrarTurma(alunos, this.value))
+  ativarFiltro()
 })
 
+
+/* exibi os alunos quando o site carrega */
+ativarFiltro()
 
