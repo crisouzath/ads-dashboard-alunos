@@ -35,11 +35,8 @@ No desenvolvimento do projeto, foi implementada toda a lógica em **JavaScript**
 
 ```bash
 📦 dashboard-alunos
- ┣ 📂 css
- ┃ ┗ 📜 style.css
- ┣ 📂 js
- ┃ ┗ 📜 script.js
- ┣ 📂 assets
+ ┣ 📜 style.css
+ ┣ 📜 script.js
  ┣ 📜 index.html
  ┗ 📜 README.md
 ```
@@ -78,4 +75,5 @@ cd dashboard-alunos
 
 ## 📸 Preview
 
-Adicione aqui imagens ou GIFs do projeto.
+<img width="1352" height="642" alt="image" src="https://github.com/user-attachments/assets/b1b90065-5998-4dc4-bc33-6a451ab64826" />
+
